@@ -32,15 +32,19 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="title" />
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingLeft="15dp"
+                    android:text="   title" />
 
                 <TextView
                     android:id="@+id/distance"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="distance" />
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="   distance"
+                    android:textStyle="italic" />
 
             </LinearLayout>
 

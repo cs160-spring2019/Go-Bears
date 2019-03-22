@@ -15,7 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private String username;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private CardsAdapter mAdapter;
     private ArrayList<CardsView> mCardsView = new ArrayList<>();
    // private FusedLocationProviderClient fusedLocationClient;
 
@@ -65,6 +65,24 @@ public class HomeActivity extends AppCompatActivity {
         // this will "refresh" our recycler view
         mAdapter = new CardsAdapter(this, mCardsView);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new CardsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                CardsView card = mCardsView.get(position);
+                startNewActivity(card.getTitle());
+
+
+            }
+        });
+    }
+
+    public void startNewActivity (String landmark) {
+
+        Intent intent = new Intent (this, CommentFeedActivity.class);
+        intent.putExtra("username", username);
+        intent.putExtra("landmark", landmark);
+        startActivity(intent);
+
     }
 }
 

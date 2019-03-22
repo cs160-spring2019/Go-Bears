@@ -14,6 +14,15 @@ public class CardsAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
     private ArrayList<CardsView> mCardsView;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public CardsAdapter(Context context, ArrayList<CardsView> cardsView) {
         mContext = context;
@@ -25,7 +34,7 @@ public class CardsAdapter extends RecyclerView.Adapter {
         // here, we specify what kind of view each cell should have. In our case, all of them will have a view
         // made from card_cell_layout
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_cell_layout, parent, false);
-        return new CardViewHolder(view);
+        return new CardViewHolder(view, mListener);
     }
 
 
@@ -45,27 +54,44 @@ public class CardsAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return mCardsView.size();
     }
-}
 
-class CardViewHolder extends RecyclerView.ViewHolder {
+    class CardViewHolder extends RecyclerView.ViewHolder {
 
-    // each data item is just a string in this case
-    public RelativeLayout mCardLayout;
-    public TextView mTitle;
-    public TextView mDistance;
-    public ImageView mImage;
+        // each data item is just a string in this case
+        public RelativeLayout mCardLayout;
+        public TextView mTitle;
+        public TextView mDistance;
+        public ImageView mImage;
 
-    public CardViewHolder(View itemView) {
-        super(itemView);
-        mCardLayout = itemView.findViewById(R.id.card_cell_layout);
-        mTitle = mCardLayout.findViewById(R.id.title);
-        mDistance = mCardLayout.findViewById(R.id.distance);
-        mImage = mCardLayout.findViewById(R.id.image);
+        public CardViewHolder(View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            mCardLayout = itemView.findViewById(R.id.card_cell_layout);
+            mTitle = mCardLayout.findViewById(R.id.title);
+            mDistance = mCardLayout.findViewById(R.id.distance);
+            mImage = mCardLayout.findViewById(R.id.image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+        }
+
+        void bind(CardsView card) {
+            mTitle.setText(card.getTitle());
+            mDistance.setText(card.getDistance());
+            mImage.setImageResource(card.getImageUri());
+        }
     }
 
-    void bind(CardsView card) {
-        mTitle.setText(card.getTitle());
-        mDistance.setText(card.getDistance());
-        mImage.setImageResource(card.getImageUri());
-    }
+
+
 }
+
+

@@ -1,5 +1,6 @@
 package com.example.cs160_sp18.prog3;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import java.util.Date;
 public class CommentFeedActivity extends AppCompatActivity {
 
     private static final String TAG = CommentFeedActivity.class.getSimpleName();
+    private String username;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,11 +39,10 @@ public class CommentFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_feed);
 
+        Intent intent = getIntent();
         // TODO: replace this with the name of the landmark the user chose
-        String landmarkName = "test landmark";
-
-        // sets the app bar's title
-        setTitle(landmarkName + ": Posts");
+        username = intent.getStringExtra("username");
+        String landmarkName = intent.getStringExtra("landmark");
 
         // hook up UI elements
         layout = (RelativeLayout) findViewById(R.id.comment_layout);
@@ -50,6 +51,10 @@ public class CommentFeedActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
+
+        // sets the app bar's title
+        mToolbar.setTitle(landmarkName + ": Posts");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_recycler);
         mRecyclerView.setHasFixedSize(true);
@@ -106,7 +111,7 @@ public class CommentFeedActivity extends AppCompatActivity {
     }
 
     private void postNewComment(String commentText) {
-        Comment newComment = new Comment(commentText, "one-sixty student", new Date());
+        Comment newComment = new Comment(commentText, username, new Date());
         mComments.add(newComment);
         setAdapterAndUpdateData();
     }
