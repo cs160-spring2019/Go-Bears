@@ -21,5 +21,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".HomeActivity"
+            android:label="home_activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+            <!-- makes this the first activity presented on app launch. -->
+            <!-- you will want to move this intent filter to a different activity later -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="main_activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+            <!-- makes this the first activity presented on app launch. -->
+            <!-- you will want to move this intent filter to a different activity later -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
