@@ -1,6 +1,7 @@
 package com.example.cs160_sp18.prog3;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,9 @@ public class CardsAdapter extends RecyclerView.Adapter {
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
+                            CardsView c = mCardsView.get(position);
                             listener.onItemClick(position);
+
                         }
                     }
                 }
@@ -84,8 +87,14 @@ public class CardsAdapter extends RecyclerView.Adapter {
         }
 
         void bind(CardsView card) {
+            String dist = Integer.toString(card.getDistance()) + " meters away";
             mTitle.setText(card.getTitle());
-            mDistance.setText(card.getDistance());
+            mDistance.setText(dist);
+            if (card.getDistance() < 10) {
+                mDistance.setTextColor(Color.GREEN);
+            } else {
+                mDistance.setTextColor(Color.BLACK);
+            }
             mImage.setImageResource(card.getImageUri());
         }
     }
