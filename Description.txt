@@ -1,0 +1,17 @@
+The github link for the code of this programming assignment is:
+
+ https://github.com/cs160-spring2019/prog3-cleomart.git.
+
+The google drive link of the demo of the app is:
+
+https://drive.google.com/open?id=1eMipiSrVbO5Z9gTSFBUjNNvWtBeFtyET
+
+UC Berkeley account is required to access it.
+
+The app asks you to enter your username in the beginning and won't let you log in without a username. Once log in, you'll see the different landmarks with pciture, title and distance of the landmark from your location. 
+
+You can only access the message board of the landmarks that are within 10 meters away. And the distance text is colored in light green if the landmark is within 10 meters in addition to explicitly stating so. 
+
+Once you access a landmark, you can comment on the message with your username showing; however, the firfebase is not yet implemented, so only hard coded comments are shown.
+
+Then you can also go back to the list of landmarks and you can change your location, and click the update location button to update the distance of each landmark from you.
