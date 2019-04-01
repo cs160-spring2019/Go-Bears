@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "961565278991",
+    "firebase_url": "https://locationbasedmessageboar-7faa6.firebaseio.com",
+    "project_id": "locationbasedmessageboar-7faa6",
+    "storage_bucket": "locationbasedmessageboar-7faa6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961565278991:android:51075d98492bffd9",
+        "android_client_info": {
+          "package_name": "com.example.paigeplander.cs160_prog3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961565278991-r2s55q41dns0tif0vkjr1nasoe1s6dd6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.location_basedmessageboard",
+            "certificate_hash": "6a5d46d78efe567a2a5bffdd2d4fd3a286699c34"
+          }
+        },
+        {
+          "client_id": "961565278991-lvr6ucadqhb2rbptmcnjnq4jsj0v1sgf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzrrvoXjAfoxZIKLqQ-Kq1l4lfONoUkgk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961565278991-lvr6ucadqhb2rbptmcnjnq4jsj0v1sgf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

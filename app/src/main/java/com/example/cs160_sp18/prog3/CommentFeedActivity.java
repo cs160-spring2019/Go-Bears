@@ -7,12 +7,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 
 // Displays a list of comments for a particular landmark.
 public class CommentFeedActivity extends AppCompatActivity {
@@ -23,6 +37,8 @@ public class CommentFeedActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<Comment> mComments = new ArrayList<Comment>();
+    FirebaseDatabase database;
+    DatabaseReference bear;
 
     // UI elements
     EditText commentInputBox;
@@ -39,10 +55,18 @@ public class CommentFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_feed);
 
+
+        // entry point to access your Firebase database
+        database = FirebaseDatabase.getInstance();
+
+        DatabaseReference landMarks = database.getReference("Landmarks");
+
+
         Intent intent = getIntent();
         // TODO: replace this with the name of the landmark the user chose
         username = intent.getStringExtra("username");
         String landmarkName = intent.getStringExtra("landmark");
+        bear = landMarks.child(landmarkName);
 
         // hook up UI elements
         layout = (RelativeLayout) findViewById(R.id.comment_layout);
@@ -60,15 +84,47 @@ public class CommentFeedActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // create a new value event listener
+        ValueEventListener myDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Set a breakpoint in this method and run in debug mode!!
+                // this will be called each time `someRef` or one of its children is modified
+                HashMap<String, HashMap> children = (HashMap<String, HashMap>) dataSnapshot.getValue();
+                SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+                mComments = new ArrayList<>();
+
+                for (String date: children.keySet()) {
+                    Date d = null;
+                    try {
+                        d = df.parse(date);
+                        Comment c = new Comment((String) children.get(date).get("comment"), (String) children.get(date).get("username"),d);
+                        mComments.add(c);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                setAdapterAndUpdateData();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("0", "cancelled");
+            }
+        };
+
+        bear.addValueEventListener(myDataListener);
+
         // create an onclick for the send button
         setOnClickForSendButton();
 
         // make some test comment objects that we add to the recycler view
-        makeTestComments();
+        //makeTestComments();
 
         // use the comments in mComments to create an adapter. This will populate mRecyclerView
         // with a custom cell (with comment_cell_layout) for each comment in mComments
-        setAdapterAndUpdateData();
+        //setAdapterAndUpdateData();
     }
 
     // TODO: delete me
@@ -111,7 +167,11 @@ public class CommentFeedActivity extends AppCompatActivity {
     }
 
     private void postNewComment(String commentText) {
-        Comment newComment = new Comment(commentText, username, new Date());
+        Date date = new Date();
+        Comment newComment = new Comment(commentText, username, date);
+        DatabaseReference childBear = bear.child(date.toString());
+        childBear.child("username").setValue(username);
+        childBear.child("comment").setValue(commentText);
         mComments.add(newComment);
         setAdapterAndUpdateData();
     }
